@@ -1057,6 +1057,20 @@ class submenu_0(bpy.types.Menu):
         layout.operator("master_blend.material_override", text='Aplicar')         
         layout.operator("master_blend.remove_material_override", text='Remover')
 
+class submenu_1(bpy.types.Menu):
+    bl_idname = "submenu_1.name"
+    bl_label = ""
+    def draw(self, context):
+        layout = self.layout
+        layout.separator() 
+        self.layout.label(text="Qualidade")             
+        layout.operator("master_blend.baixa", text='Baixa')         
+        layout.operator("master_blend.media", text='Média')
+        layout.operator("master_blend.alta", text='Alta')        
+        layout.separator()
+        self.layout.label(text="Configuração padrão")             
+        layout.operator("master_blend.resete", text='Reset')   
+
 class menu_principal(bpy.types.Panel):
     bl_label = "Master Blend"
     bl_idname = "MENU_PT_master_blend"
