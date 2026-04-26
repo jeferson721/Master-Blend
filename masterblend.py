@@ -1087,7 +1087,7 @@ class menu_principal(bpy.types.Panel):
         layout.label(text="Material Override")
         layout.menu(submenu_0.bl_idname)      
 
-classes = (MB_Properties, submenu_0, remove_override, material_override, menu_principal)
+classes = (MB_Properties, submenu_0, submenu_1, resete, master_alta, master_media, master_baixa, remove_override, material_override, menu_principal)
 
 def register():
     for cls in classes:
