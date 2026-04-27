@@ -321,7 +321,7 @@ class master_alta(bpy.types.Operator):
         
         return {'FINISHED'}
  
- class resete(bpy.types.Operator):
+class resete(bpy.types.Operator):
     bl_idname = "master_blend.resete"
     bl_label = "Configuração engines"
     
@@ -1085,9 +1085,11 @@ class menu_principal(bpy.types.Panel):
         layout.label(text="Master Blend", icon='COLORSET_02_VEC')
         layout.prop(wm.mb_props, "render_engine", expand=True)
         layout.label(text="Material Override")
-        layout.menu(submenu_0.bl_idname)      
+        layout.menu(submenu_0.bl_idname)
+        self.layout.label(text="Configuração da Engine")
+        layout.menu(submenu_1.bl_idname)          
 
-classes = (MB_Properties, submenu_0, submenu_1, resete, master_alta, master_media, master_baixa, remove_override, material_override, menu_principal)
+classes = (MB_Properties, submenu_0, resete, master_alta, master_media, master_baixa, remove_override, material_override, menu_principal, submenu_1)
 
 def register():
     for cls in classes:
