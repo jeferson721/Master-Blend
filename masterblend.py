@@ -74,9 +74,8 @@ class remove_override(bpy.types.Operator):
 
 class master_baixa(bpy.types.Operator):
     bl_idname = "master_blend.baixa"
-    bl_label = "Configuração engines"
-   
-    
+    bl_label = "Configuração engines"  
+
     def execute(self, context):
         motor = bpy.context.scene.render.engine
         if motor in ("BLENDER_EEVEE", "BLENDER_EEVEE_NEXT"):        
