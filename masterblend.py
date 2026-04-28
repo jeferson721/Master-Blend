@@ -75,20 +75,21 @@ class remove_override(bpy.types.Operator):
 class master_baixa(bpy.types.Operator):
     bl_idname = "master_blend.baixa"
     bl_label = "Configuração engines"
+   
     
     def execute(self, context):
-        if bpy.data.window_managers["WinMan"].Evee:        
-            bpy.context.scene.render.engine = 'BLENDER_EEVEE'
+        motor = bpy.context.scene.render.engine
+        if motor in ("BLENDER_EEVEE", "BLENDER_EEVEE_NEXT"):        
             bpy.context.scene.eevee.taa_render_samples = 64
             bpy.context.scene.eevee.taa_samples = 16
-            bpy.context.scene.eevee.use_gtao = True
-            bpy.context.scene.eevee.gtao_quality = 1
-            bpy.context.scene.eevee.use_ssr = True
-            bpy.context.scene.eevee.use_ssr_refraction = True
-            bpy.context.scene.eevee.use_shadow_high_bitdepth = True
-            bpy.context.scene.eevee.shadow_cube_size = '64'
-            bpy.context.scene.eevee.shadow_cascade_size = '64'
-            bpy.context.scene.eevee.gi_cubemap_resolution = '64'
+            #bpy.context.scene.eevee.use_gtao = True
+            #bpy.context.scene.eevee.gtao_quality = 1
+            #bpy.context.scene.eevee.use_ssr = True
+            #bpy.context.scene.eevee.use_ssr_refraction = True
+            #bpy.context.scene.eevee.use_shadow_high_bitdepth = True
+            #bpy.context.scene.eevee.shadow_cube_size = '64'
+            #bpy.context.scene.eevee.shadow_cascade_size = '64'
+            bpy.context.scene.eevee.gi_cubemap_resolution = '128'
             bpy.context.scene.eevee.gi_visibility_resolution = '8'
             bpy.context.scene.display_settings.display_device = 'sRGB'
             bpy.context.scene.view_settings.view_transform = 'AgX'
@@ -103,8 +104,7 @@ class master_baixa(bpy.types.Operator):
             bpy.context.scene.render.image_settings.color_depth = '16'
             bpy.context.scene.render.image_settings.color_management = 'FOLLOW_SCENE'
             bpy.context.scene.use_nodes = False            
-        if bpy.data.window_managers["WinMan"].Cycles:
-            bpy.context.scene.render.engine = 'CYCLES'
+        elif motor == "CYCLES":
             bpy.context.scene.cycles.use_preview_denoising = True
             bpy.context.scene.cycles.preview_denoising_start_sample = 1
             bpy.context.scene.cycles.preview_samples = 1
