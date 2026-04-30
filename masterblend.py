@@ -212,78 +212,21 @@ class master_media(bpy.types.Operator):
             bpy.context.scene.render.image_settings.color_management = 'FOLLOW_SCENE'
             bpy.context.scene.render.use_border = False
             bpy.context.view_layer.cycles.denoising_store_passes = True
+            #bpy.context.scene.use_nodes = True        
+            #bpy.context.scene.node_tree.nodes.clear()       
+            #node_layers = bpy.context.scene.node_tree.nodes.new('CompositorNodeRLayers')
+            #node_layers.name = 'node_layers_mb'
+            #node_composite = bpy.context.scene.node_tree.nodes.new('CompositorNodeComposite')
+            #node_composite.name = 'composite_mb'
+            #node_denoiser = bpy.context.scene.node_tree.nodes.new('CompositorNodeDenoise')
+            #node_denoiser.name = 'denoiser_mb'
+            #tree = bpy.context.scene.node_tree 
+            #links = tree.links 
+            #link = links.new(node_layers.outputs["Image"], node_denoiser.inputs["Image"])
+            #link = links.new(node_denoiser.outputs["Image"], node_composite.inputs["Image"])
+            #link = links.new(node_layers.outputs["Denoising Normal"], node_denoiser.inputs["Normal"])
+            #link = links.new(node_layers.outputs["Denoising Albedo"], node_denoiser.inputs["Albedo"])
           
-            scene = bpy.context.scene
-
-            # =====================================
-            # cria node group do compositor
-            # =====================================
-
-            group_name = "Compositor Nodes"
-
-            # remove antigo se existir
-            if group_name in bpy.data.node_groups:
-                bpy.data.node_groups.remove(
-                    bpy.data.node_groups[group_name]
-                )
-
-            # cria novo grupo
-            tree = bpy.data.node_groups.new(
-                group_name,
-                'CompositorNodeTree' 
-            )
-
-            # =====================================
-            # nós e links
-            # =====================================
-
-            nodes = tree.nodes
-            links = tree.links
-
-            # limpa
-            nodes.clear()
-
-            # Render Layers
-            node_layers = nodes.new("CompositorNodeRLayers")
-            node_layers.location = (-400, 0)
-
-            # Denoise
-            node_denoiser = nodes.new("CompositorNodeDenoise")
-            node_denoiser.location = (0, 0)
-
-            # Composite
-            node_composite = nodes.new("CompositorNodeComposite")
-            node_composite.location = (400, 0)
-
-            # =====================================
-            # links
-            # =====================================
-
-            links.new(
-                node_layers.outputs["Image"],
-                node_denoiser.inputs["Image"]
-            )
-
-            links.new(
-                node_denoiser.outputs["Image"],
-                node_composite.inputs["Image"]
-            )
-
-            if "Denoising Normal" in node_layers.outputs:
-                links.new(
-                    node_layers.outputs["Denoising Normal"],
-                    node_denoiser.inputs["Normal"]
-                )
-
-            if "Denoising Albedo" in node_layers.outputs:
-                links.new(
-                    node_layers.outputs["Denoising Albedo"],
-                    node_denoiser.inputs["Albedo"]
-                )
-
-                     
-    
-        
         return {'FINISHED'}
 
 class master_alta(bpy.types.Operator):
