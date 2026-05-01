@@ -151,7 +151,7 @@ class master_media(bpy.types.Operator):
         motor = bpy.context.scene.render.engine
         
         if motor in ("BLENDER_EEVEE", "BLENDER_EEVEE_NEXT"):        
-            bpy.context.scene.render.engine = 'BLENDER_EEVEE'
+            #bpy.context.scene.render.engine = 'BLENDER_EEVEE'
             bpy.context.scene.eevee.taa_render_samples = 64
             bpy.context.scene.eevee.taa_samples = 16
             #bpy.context.scene.eevee.use_gtao = True
@@ -177,7 +177,7 @@ class master_media(bpy.types.Operator):
             bpy.context.scene.render.image_settings.color_management = 'FOLLOW_SCENE'
             bpy.context.scene.use_nodes = False            
         elif motor == "CYCLES":
-            bpy.context.scene.render.engine = 'CYCLES'
+            #bpy.context.scene.render.engine = 'CYCLES'
             bpy.context.scene.cycles.use_preview_denoising = True
             bpy.context.scene.cycles.preview_denoising_start_sample = 499
             bpy.context.scene.cycles.preview_samples = 500
@@ -234,26 +234,28 @@ class master_alta(bpy.types.Operator):
     bl_label = "Configuração engines"
     
     def execute(self, context):
-        if bpy.data.window_managers["WinMan"].Evee:        
-            bpy.context.scene.render.engine = 'BLENDER_EEVEE'
+        motor = bpy.context.scene.render.engine
+        
+        if motor in ("BLENDER_EEVEE", "BLENDER_EEVEE_NEXT"):        
+            #bpy.context.scene.render.engine = 'BLENDER_EEVEE'
             bpy.context.scene.eevee.taa_render_samples = 128
             bpy.context.scene.eevee.taa_samples = 32
-            bpy.context.scene.eevee.use_gtao = True
-            bpy.context.scene.eevee.gtao_quality = 1
-            bpy.context.scene.eevee.use_ssr = True
-            bpy.context.scene.eevee.use_ssr_refraction = True
-            bpy.context.scene.eevee.use_ssr_halfres = False
-            bpy.context.scene.eevee.ssr_quality = 1
-            bpy.context.scene.eevee.ssr_max_roughness = 0.5
-            bpy.context.scene.eevee.ssr_thickness = 0.1
-            bpy.context.scene.eevee.ssr_border_fade = 0        
-            bpy.context.scene.eevee.ssr_firefly_fac = 100
+            #bpy.context.scene.eevee.use_gtao = True
+            #bpy.context.scene.eevee.gtao_quality = 1
+            #bpy.context.scene.eevee.use_ssr = True
+            #bpy.context.scene.eevee.use_ssr_refraction = True
+            #bpy.context.scene.eevee.use_ssr_halfres = False
+            #bpy.context.scene.eevee.ssr_quality = 1
+            #bpy.context.scene.eevee.ssr_max_roughness = 0.5
+            #bpy.context.scene.eevee.ssr_thickness = 0.1
+            #bpy.context.scene.eevee.ssr_border_fade = 0        
+            #bpy.context.scene.eevee.ssr_firefly_fac = 100
             bpy.context.scene.eevee.gi_diffuse_bounces = 10
             bpy.context.scene.eevee.gi_glossy_clamp = 100
-            bpy.context.scene.eevee.gi_filter_quality = 8
-            bpy.context.scene.eevee.use_shadow_high_bitdepth = True
-            bpy.context.scene.eevee.shadow_cube_size = '4096'
-            bpy.context.scene.eevee.shadow_cascade_size = '4096'
+            #bpy.context.scene.eevee.gi_filter_quality = 8
+            #bpy.context.scene.eevee.use_shadow_high_bitdepth = True
+            #bpy.context.scene.eevee.shadow_cube_size = '4096'
+            #bpy.context.scene.eevee.shadow_cascade_size = '4096'
             bpy.context.scene.eevee.gi_cubemap_resolution = '4096'
             bpy.context.scene.eevee.gi_visibility_resolution = '64'
             bpy.context.scene.display_settings.display_device = 'sRGB'
@@ -269,8 +271,8 @@ class master_alta(bpy.types.Operator):
             bpy.context.scene.render.image_settings.color_depth = '16'
             bpy.context.scene.render.image_settings.color_management = 'FOLLOW_SCENE'
             bpy.context.scene.use_nodes = False            
-        if bpy.data.window_managers["WinMan"].Cycles:
-            bpy.context.scene.render.engine = 'CYCLES'
+        elif motor == "CYCLES":
+            #bpy.context.scene.render.engine = 'CYCLES'
             bpy.context.scene.cycles.use_preview_denoising = True
             bpy.context.scene.cycles.preview_denoising_start_sample = 4999
             bpy.context.scene.cycles.preview_samples = 5000
@@ -305,20 +307,20 @@ class master_alta(bpy.types.Operator):
             bpy.context.scene.render.image_settings.color_management = 'FOLLOW_SCENE'
             bpy.context.scene.render.use_border = False
             bpy.context.view_layer.cycles.denoising_store_passes = True
-            bpy.context.scene.use_nodes = True
-            bpy.context.scene.node_tree.nodes.clear()
-            node_layers = bpy.context.scene.node_tree.nodes.new('CompositorNodeRLayers')
-            node_layers.name = 'node_layers_mb'
-            node_composite = bpy.context.scene.node_tree.nodes.new('CompositorNodeComposite')
-            node_composite.name = 'composite_mb'
-            node_denoiser = bpy.context.scene.node_tree.nodes.new('CompositorNodeDenoise')
-            node_denoiser.name = 'denoiser_mb'
-            tree = bpy.context.scene.node_tree 
-            links = tree.links 
-            link = links.new(node_layers.outputs["Image"], node_denoiser.inputs["Image"])
-            link = links.new(node_denoiser.outputs["Image"], node_composite.inputs["Image"])
-            link = links.new(node_layers.outputs["Denoising Normal"], node_denoiser.inputs["Normal"])
-            link = links.new(node_layers.outputs["Denoising Albedo"], node_denoiser.inputs["Albedo"])
+            #bpy.context.scene.use_nodes = True
+            #bpy.context.scene.node_tree.nodes.clear()
+            #node_layers = bpy.context.scene.node_tree.nodes.new('CompositorNodeRLayers')
+            #node_layers.name = 'node_layers_mb'
+            #node_composite = bpy.context.scene.node_tree.nodes.new('CompositorNodeComposite')
+            #node_composite.name = 'composite_mb'
+            #node_denoiser = bpy.context.scene.node_tree.nodes.new('CompositorNodeDenoise')
+            #node_denoiser.name = 'denoiser_mb'
+            #tree = bpy.context.scene.node_tree 
+            #links = tree.links 
+            #link = links.new(node_layers.outputs["Image"], node_denoiser.inputs["Image"])
+            #link = links.new(node_denoiser.outputs["Image"], node_composite.inputs["Image"])
+            #link = links.new(node_layers.outputs["Denoising Normal"], node_denoiser.inputs["Normal"])
+            #link = links.new(node_layers.outputs["Denoising Albedo"], node_denoiser.inputs["Albedo"])
         
         return {'FINISHED'}
  
