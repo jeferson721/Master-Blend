@@ -716,6 +716,28 @@ class cinza18_add(bpy.types.Operator):
                 
         return {'FINISHED'}
 
+class cinza18_remo(bpy.types.Operator):
+    bl_idname = "master_blend.cinza18_remover"
+    bl_label = "Cinza18"
+    
+    def execute(self, context):
+        bpy.context.scene.view_settings.view_transform = 'AgX'             
+        for material in bpy.data.materials:          
+                        
+            if material.node_tree and "diffuse_gray_18" in material.node_tree.nodes:
+                node_to_delete = material.node_tree.nodes["diffuse_gray_18"]
+                material.node_tree.nodes.remove(node_to_delete)
+                
+            if material.node_tree and "Output_node_diffuse_gray_18" in material.node_tree.nodes:
+                node_to_delete = material.node_tree.nodes["Output_node_diffuse_gray_18"]
+                material.node_tree.nodes.remove(node_to_delete)
+                
+            if material.node_tree and "Material Output" in material.node_tree.nodes:
+                    node_to_active = material.node_tree.nodes["Material Output"]
+                    material.node_tree.nodes.active = node_to_active
+                
+        return {'FINISHED'}
+
 # Menu
 
 class submenu_0(bpy.types.Menu):
