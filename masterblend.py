@@ -12,6 +12,8 @@ import bpy
 import bmesh
 import math
 
+# Funções aux gerais
+
 def update_render_engine(self, context):
     if self.render_engine == 'CYCLES':
         context.scene.render.engine = 'CYCLES'
@@ -28,7 +30,7 @@ class MB_Properties(bpy.types.PropertyGroup):
         update=update_render_engine
     )
 
-# Funcoes gerais
+# Materiais 
 
 class material_override(bpy.types.Operator):
     bl_idname = "master_blend.material_override"
@@ -73,6 +75,8 @@ class remove_override(bpy.types.Operator):
                     material.node_tree.nodes.active = node_to_active
                 
         return {'FINISHED'}
+
+# Configurações
 
 class master_baixa(bpy.types.Operator):
     bl_idname = "master_blend.baixa"
@@ -690,6 +694,8 @@ class resete(bpy.types.Operator):
                 
         return {'FINISHED'}
 
+# Ajuste com cinza 18%
+
 class cinza18_add(bpy.types.Operator):
     bl_idname = "master_blend.cinza18_aplicar"
     bl_label = "Cinza 18 calibracao"
@@ -737,6 +743,8 @@ class cinza18_remo(bpy.types.Operator):
                     material.node_tree.nodes.active = node_to_active
                 
         return {'FINISHED'}
+
+# Configurações de luz do mundo em diferentes horarios
 
 class cycles_ambiente_noite(bpy.types.Operator):
     bl_idname = "cycles_noite.ilum"
@@ -810,7 +818,79 @@ class cycles_ambiente_noite(bpy.types.Operator):
         
         return {'FINISHED'}
 
-# Menu
+class cycles_ambiente_manha(bpy.types.Operator):
+    bl_idname = "cycles_manha.ilum"
+    bl_label = "cycles_ambient_manha"
+    import bpy
+    
+    def execute(self, context):
+        bpy.data.worlds['World'].use_nodes = True
+        
+        ##########################
+        world_node_tree = bpy.data.worlds['World'].node_tree  
+        
+        for node in world_node_tree.nodes:
+            if "master_blend_env_node" in world_node_tree.nodes: 
+                node_to_delete = world_node_tree.nodes["master_blend_env_node"]
+                world_node_tree.nodes.remove(node_to_delete)
+            
+            if "master_blend_back_node" in world_node_tree.nodes: 
+                node_to_delete = world_node_tree.nodes["master_blend_back_node"]
+                world_node_tree.nodes.remove(node_to_delete)
+            
+            if "master_blend_mapp_node" in world_node_tree.nodes: 
+                node_to_delete = world_node_tree.nodes["master_blend_mapp_node"]
+                world_node_tree.nodes.remove(node_to_delete)
+            
+            if "master_blend_coord_node" in world_node_tree.nodes: 
+                node_to_delete = world_node_tree.nodes["master_blend_coord_node"]
+                world_node_tree.nodes.remove(node_to_delete)
+                                          
+            if "master_blend_output_node" in world_node_tree.nodes: 
+                node_to_delete = world_node_tree.nodes["master_blend_output_node"]
+                world_node_tree.nodes.remove(node_to_delete)
+                
+        ##############################
+        
+        
+        
+        
+        env_node = bpy.data.worlds['World'].node_tree.nodes.new(type='ShaderNodeTexEnvironment')
+        env_node.name = 'master_blend_env_node'
+        
+        caminho77 =""
+        import os
+        script_file = os.path.realpath(__file__)
+        dir = os.path.dirname(script_file)
+        caminho77 = os.path.join(dir, 'hdri')
+        caminho77 = "{}\\manha.exr".format(caminho77)
+        env_node.image = bpy.data.images.load(caminho77)
+        caminho77 =""
+        
+        back_node = bpy.data.worlds['World'].node_tree.nodes.new(type='ShaderNodeBackground')  
+        back_node.name =  'master_blend_back_node'
+        mapp_node = bpy.data.worlds['World'].node_tree.nodes.new(type='ShaderNodeMapping')
+        mapp_node.name =  'master_blend_mapp_node'        
+        coord_node = bpy.data.worlds['World'].node_tree.nodes.new(type='ShaderNodeTexCoord')
+        coord_node.name = 'master_blend_coord_node'        
+        output_node = bpy.data.worlds['World'].node_tree.nodes.new(type='ShaderNodeOutputWorld')
+        output_node.name = 'master_blend_output_node'
+        
+        bpy.data.worlds['World'].node_tree.links.new(coord_node.outputs['Generated'], mapp_node.inputs['Vector'])
+        bpy.data.worlds['World'].node_tree.links.new(mapp_node.outputs['Vector'], env_node.inputs['Vector'])
+        bpy.data.worlds['World'].node_tree.links.new(env_node.outputs['Color'], back_node.inputs['Color'])
+        bpy.data.worlds['World'].node_tree.links.new(back_node.outputs['Background'], output_node.inputs['Surface'])
+        
+     
+                   
+        
+        if "master_blend_output_node" in world_node_tree.nodes:            
+            node_to_active = world_node_tree.nodes["master_blend_output_node"]
+            world_node_tree.nodes.active = node_to_active
+        
+        return {'FINISHED'}
+
+# Menus
 
 class submenu_0(bpy.types.Menu):
     bl_idname = "submenu_0.name"
