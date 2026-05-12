@@ -744,7 +744,7 @@ class cinza18_remo(bpy.types.Operator):
                 
         return {'FINISHED'}
 
-# Configurações de luz do mundo em diferentes horarios
+# Configurações de luz
 
 class cycles_ambiente_noite(bpy.types.Operator):
     bl_idname = "cycles_noite.ilum"
@@ -1032,6 +1032,79 @@ class cycles_ambiente_tarde(bpy.types.Operator):
         
         return {'FINISHED'}
                
+class adiconall(bpy.types.Operator):
+    bl_idname = "master_blend.adiciona_luz"
+    bl_label = "luzzz"
+    
+    def execute(self, context):
+        import bpy              
+        collection_name = "Luzes de Studio"
+        collection = bpy.data.collections.new(collection_name)
+        bpy.context.scene.collection.children.link(collection)
+        bpy.context.view_layer.active_layer_collection = bpy.context.view_layer.layer_collection.children[collection_name]
+
+        bpy.ops.object.light_add(type='AREA', radius=1, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+        obj = bpy.context.selected_objects[0]
+        obj.name = "Cima"
+        obj.location[2] = 3
+        obj.scale[1] = 0.01
+        obj.scale[0] = 2
+        obj.data.energy = 50
+        obj.data.color = (1, 0.8, 0.92)
+
+        bpy.ops.object.light_add(type='AREA', radius=1, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+        obj = bpy.context.selected_objects[0]
+        obj.name = "Posterior"
+        obj.location[1] = 3
+        obj.scale[1] = 0.3
+        obj.scale[0] = 2
+        obj.rotation_euler[0] = -1.5708
+        obj.location[2] = 0.1
+        obj.data.energy = 50
+        obj.data.color = (0.8004, 1, 0.8)
+        bpy.ops.object.light_add(type='AREA', radius=1, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+        obj = bpy.context.selected_objects[0]
+        obj.name = "Esquerda"
+        obj.location[1] = -2
+        obj.location[2] = 2
+        obj.scale[1] = 0.01
+        obj.scale[0] = 2
+        obj.location[0] = 2
+        obj.rotation_euler[0] = 0
+        obj.rotation_euler[1] = 0.959931
+        obj.rotation_euler[2] = -0.785398
+        obj.data.energy = 100
+        obj.data.color = (1, 0.8475, 0.75)
+        bpy.ops.object.light_add(type='AREA', radius=1, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+        obj = bpy.context.selected_objects[0]
+        obj.name = "Direita"
+        obj.location[1] = -2
+        obj.location[2] = 2
+        obj.scale[1] = -0.01
+        obj.scale[0] = -2
+        obj.location[0] = -2
+        obj.rotation_euler[0] = -0
+        obj.rotation_euler[1] = -0.959931
+        obj.rotation_euler[2] = 0.785398
+        obj.data.energy = 90
+        obj.data.color = (0.75, 0.775, 1)
+        bpy.ops.object.light_add(type='POINT', align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+        obj = bpy.context.selected_objects[0]
+        obj.name = "Chave"
+        obj.location[1] = -1
+        obj.location[2] = 1.5
+        obj.scale[1] = -0.01
+        obj.scale[0] = -2
+        obj.location[0] = -1
+        obj.rotation_euler[0] = -0
+        obj.rotation_euler[1] = -0.959931
+        obj.rotation_euler[2] = 0.785398
+        obj.data.energy = 110
+        scene_collection = bpy.context.view_layer.layer_collection
+        bpy.context.view_layer.active_layer_collection = scene_collection  
+
+                
+        return {'FINISHED'}               
 
 # Menus
 
