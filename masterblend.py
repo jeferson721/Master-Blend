@@ -1112,7 +1112,12 @@ def rotz_autlz(self, context):
     light_object = light_collection.objects[light_name]   
     light_object.rotation_euler[2] = bpy.context.scene.rotz
      
-
+def rotx_autlz(self, context):  
+    light_name = 'SOL_Master_Blend'
+    light_collection = bpy.data.collections['Evee_Luz_Master_Blend']   
+    light_object = light_collection.objects[light_name] 
+    light_object.rotation_euler[0] = bpy.context.scene.rotx
+ 
 
 # Menus
 
