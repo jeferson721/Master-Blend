@@ -1106,6 +1106,11 @@ class adiconall(bpy.types.Operator):
                 
         return {'FINISHED'}               
 
+def posf_1_autlz(self, context):
+    bpy.data.worlds['World'].use_nodes = True
+    back_node = bpy.data.worlds["World"].node_tree.nodes["master_blend_mapp_node"]    
+    back_node.inputs[2].default_value[2] = bpy.context.scene.posf1  
+
 def rotz_autlz(self, context):
     light_name = 'SOL_Master_Blend'
     light_collection = bpy.data.collections['Evee_Luz_Master_Blend']    
