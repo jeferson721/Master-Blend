@@ -1105,6 +1105,17 @@ class adiconall(bpy.types.Operator):
 
                 
         return {'FINISHED'}               
+
+def aplica_ilum(self, context):
+    bpy.data.worlds['World'].use_nodes = True
+    back_node = bpy.data.worlds['World'].node_tree.nodes['master_blend_back_node']
+    back_node.inputs['Strength'].default_value = bpy.context.scene.ilumin_hdri   
+    #bpy.context.object.data.energy = 0.93
+    light_name = 'SOL_Master_Blend'
+    light_collection = bpy.data.collections['Evee_Luz_Master_Blend']    
+    light_object = light_collection.objects[light_name]   
+    light_object.data.energy = bpy.context.scene.ilumin_hdri * 10
+    
       
 def upd124(self, context):    
     name = "Evee_Luz_Master_Blend"
