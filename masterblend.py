@@ -1106,6 +1106,8 @@ class adiconall(bpy.types.Operator):
                 
         return {'FINISHED'}               
 
+# Inclementos
+
 def aplica_ilum(self, context):
     bpy.data.worlds['World'].use_nodes = True
     back_node = bpy.data.worlds['World'].node_tree.nodes['master_blend_back_node']
@@ -1115,8 +1117,7 @@ def aplica_ilum(self, context):
     light_collection = bpy.data.collections['Evee_Luz_Master_Blend']    
     light_object = light_collection.objects[light_name]   
     light_object.data.energy = bpy.context.scene.ilumin_hdri * 10
-    
-      
+         
 def upd124(self, context):    
     name = "Evee_Luz_Master_Blend"
     remove_collection_objects = True
@@ -1242,6 +1243,32 @@ class submenu_1(bpy.types.Menu):
         self.layout.label(text="Configuração padrão")             
         layout.operator("master_blend.resete", text='Reset')   
 
+class submenu_2(bpy.types.Menu):
+    bl_idname = "submenu_2.name"
+    bl_label = ""
+    def draw(self, context):
+        layout = self.layout
+        layout.separator() 
+        self.layout.label(text="Calibração com Cinza 18%")             
+        layout.operator("master_blend.cinza18_aplicar", text='Aplicar')         
+        layout.operator("master_blend.cinza18_remover", text='Remover')
+        row = layout.row()
+        layout.separator()
+        self.layout.label(text="Iluminação do Ambiente")
+        row = layout.row()  
+        row.operator("cycles_noite.ilum", text="Noite")
+        row = layout.row()
+        row.operator("cycles_manha.ilum", text="Manha")
+        row = layout.row()
+        row.operator("cycles_dia.ilum", text="Dia")
+        row = layout.row()
+        row.operator("cycles_tarde.ilum", text="Tarde")
+        row = layout.row()
+        layout.separator()
+        self.layout.label(text="Iluminação de Studio")             
+        layout.operator("master_blend.adiciona_luz", text='Adicionar Luzes')         
+        #layout.operator("master_blend.evee_media", text='Ex')
+ 
 class menu_principal(bpy.types.Panel):
     bl_label = "Master Blend"
     bl_idname = "MENU_PT_master_blend"
