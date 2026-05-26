@@ -1105,120 +1105,7 @@ class adiconall(bpy.types.Operator):
 
                 
         return {'FINISHED'}               
-
-# Inclementos
-
-def aplica_ilum(self, context):
-    bpy.data.worlds['World'].use_nodes = True
-    back_node = bpy.data.worlds['World'].node_tree.nodes['master_blend_back_node']
-    back_node.inputs['Strength'].default_value = bpy.context.scene.ilumin_hdri   
-    #bpy.context.object.data.energy = 0.93
-    light_name = 'SOL_Master_Blend'
-    light_collection = bpy.data.collections['Evee_Luz_Master_Blend']    
-    light_object = light_collection.objects[light_name]   
-    light_object.data.energy = bpy.context.scene.ilumin_hdri * 10
-         
-def upd124(self, context):    
-    name = "Evee_Luz_Master_Blend"
-    remove_collection_objects = True
-    coll = bpy.data.collections.get(name)
-    if coll:
-        if remove_collection_objects:
-            obs = [o for o in coll.objects if o.users == 1]
-            while obs:
-                bpy.data.objects.remove(obs.pop())
-        bpy.data.collections.remove(coll)
-    if bpy.data.window_managers["WinMan"].Evee:
-        #-------------------------------------------*
-        #bpy.data.window_managers["WinMan"].Cycles = False 
-        bpy.context.scene.render.engine = 'BLENDER_EEVEE'
-        collection_name = "Evee_Luz_Master_Blend"
-        collection = bpy.data.collections.new(collection_name)
-        bpy.context.scene.collection.children.link(collection)
-        bpy.context.view_layer.active_layer_collection = bpy.context.view_layer.layer_collection.children[collection_name]            
-        bpy.ops.object.light_add(type='SUN', radius=1, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
-        obj = bpy.context.selected_objects[0]    
-        obj.name = "SOL_Master_Blend"
-        obj.rotation_euler[0] = 0.785398
-        obj.rotation_euler[2] = 0.785398    
-        bpy.ops.object.lightprobe_add(type='CUBEMAP', radius=1, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
-        obj = bpy.context.selected_objects[0]    
-        obj.name = "ReflectionCubemap_Master_Blend"
-        obj.scale[0] = 50
-        obj.scale[1] = 50
-        obj.scale[2] = 50    
-        bpy.ops.object.lightprobe_add(type='GRID', radius=1, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
-        obj = bpy.context.selected_objects[0]    
-        obj.name = "IrradianceVolume_Master_Blend"
-        obj.scale[0] = 50
-        obj.scale[1] = 50
-        obj.scale[2] = 50          
-        #-------------------------------------------*
-    else:
-        name = "Evee_Luz_Master_Blend"
-        remove_collection_objects = True
-        coll = bpy.data.collections.get(name)
-        if coll:
-            if remove_collection_objects:
-                obs = [o for o in coll.objects if o.users == 1]
-                while obs:
-                    bpy.data.objects.remove(obs.pop())
-            bpy.data.collections.remove(coll)
-            bpy.data.window_managers["WinMan"].Evee
-
-    if bpy.data.window_managers["WinMan"].Cycles:
-        bpy.context.scene.render.engine = 'CYCLES'
-        bpy.data.window_managers["WinMan"].Evee = False
-
-        name = "Evee_Luz_Master_Blend"
-        remove_collection_objects = True
-        coll = bpy.data.collections.get(name)
-        if coll:
-            if remove_collection_objects:
-                obs = [o for o in coll.objects if o.users == 1]
-                while obs:
-                    bpy.data.objects.remove(obs.pop())
-            bpy.data.collections.remove(coll)  
-
-        
-             
-
-    if bpy.data.window_managers["WinMan"].Evee and bpy.data.window_managers["WinMan"].Cycles:        
-            bpy.data.window_managers["WinMan"].Cycles = False  
-            bpy.data.window_managers["WinMan"].Evee = False
-            name = "Evee_Luz_Master_Blend"
-            remove_collection_objects = True
-            coll = bpy.data.collections.get(name)
-            if coll:
-                if remove_collection_objects:
-                    obs = [o for o in coll.objects if o.users == 1]
-                    while obs:
-                        bpy.data.objects.remove(obs.pop())
-                bpy.data.collections.remove(coll)  
-
-            
-
-    scene_collection = bpy.context.view_layer.layer_collection
-    bpy.context.view_layer.active_layer_collection = scene_collection
-        
-def posf_1_autlz(self, context):
-    bpy.data.worlds['World'].use_nodes = True
-    back_node = bpy.data.worlds["World"].node_tree.nodes["master_blend_mapp_node"]    
-    back_node.inputs[2].default_value[2] = bpy.context.scene.posf1  
-
-def rotz_autlz(self, context):
-    light_name = 'SOL_Master_Blend'
-    light_collection = bpy.data.collections['Evee_Luz_Master_Blend']    
-    light_object = light_collection.objects[light_name]   
-    light_object.rotation_euler[2] = bpy.context.scene.rotz
-     
-def rotx_autlz(self, context):  
-    light_name = 'SOL_Master_Blend'
-    light_collection = bpy.data.collections['Evee_Luz_Master_Blend']   
-    light_object = light_collection.objects[light_name] 
-    light_object.rotation_euler[0] = bpy.context.scene.rotx
- 
-
+    
 # Menus
 
 class submenu_0(bpy.types.Menu):
@@ -1267,7 +1154,6 @@ class submenu_2(bpy.types.Menu):
         layout.separator()
         self.layout.label(text="Iluminação de Studio")             
         layout.operator("master_blend.adiciona_luz", text='Adicionar Luzes')         
-        #layout.operator("master_blend.evee_media", text='Ex')
  
 class menu_principal(bpy.types.Panel):
     bl_label = "Master Blend"
@@ -1289,7 +1175,7 @@ class menu_principal(bpy.types.Panel):
 
 # Registradores
 
-classes = (MB_Properties, submenu_0, resete, master_alta, master_media, master_baixa, remove_override, material_override, menu_principal, submenu_1)
+classes = (MB_Properties, submenu_0, submenu_1, submenu_2, cinza18_add, cinza18_remo, cycles_ambiente_noite, cycles_ambiente_manha, cycles_ambiente_dia, cycles_ambiente_tarde,resete, master_alta, master_media, master_baixa, remove_override, material_override, menu_principal, adiconall,)
 
 def register():
     for cls in classes:
